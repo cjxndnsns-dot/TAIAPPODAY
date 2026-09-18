@@ -203,10 +203,11 @@
             font-size:12px;color:#94a3b8;font-family:'SF Mono',monospace;
             word-break:break-all;padding-left:34px;
             letter-spacing:.3px;line-height:1.5;
+            cursor:pointer;transition:.2s;
         }
+        .info-value:hover{color:#e8eef5}
         .info-value.ios{color:#38bdf8}
-        .info-value.adr{color:#f59e0b}
-        .info-value.empty{color:#64748b;font-style:italic}
+        .info-value.adr{color:#4ade80}
 
         /* ============================================================
            DOWNLOAD BUTTONS
@@ -233,13 +234,16 @@
         }
 
         .download-btn.adr{
-            background:linear-gradient(135deg,#1a2332,#0f1620);
-            color:#64748b;
-            border:1px solid rgba(255,255,255,.08);
-            cursor:not-allowed;
-            box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+            background:linear-gradient(135deg,#22c55e,#15803d,#16a34a);
+            background-size:200% 100%;
+            color:#fff;
+            box-shadow:0 10px 30px rgba(34,197,94,.35),inset 0 1px 0 rgba(255,255,255,.2);
+            animation:gradientShift 4s linear infinite;
         }
-        .download-btn.adr .icon-btn{filter:grayscale(1) opacity(.5)}
+        .download-btn.adr:hover{
+            box-shadow:0 14px 40px rgba(34,197,94,.55);
+            transform:translateY(-2px);
+        }
 
         @keyframes gradientShift{
             0%{background-position:0% 50%}
@@ -327,7 +331,7 @@
                 <span class="icon">🤖</span>
                 LINK TẢI APP ADR
             </div>
-            <div class="info-value empty" id="linkADR">CHƯA CÓ APP ADR</div>
+            <div class="info-value adr" id="linkADR">https://www.mediafire.com/file/i2pxw84x912oa8i/EVOZLOCK.apk/file</div>
         </div>
     </div>
 
@@ -337,10 +341,10 @@
         TẢI APP IOS
     </a>
 
-    <button class="download-btn adr" id="btnADR" disabled>
+    <a href="https://www.mediafire.com/file/i2pxw84x912oa8i/EVOZLOCK.apk/file" target="_blank" rel="noopener" class="download-btn adr" id="btnADR">
         <span class="icon-btn">🤖</span>
-        CHƯA CÓ APP ADR
-    </button>
+        TẢI APP ADR
+    </a>
 
     <!-- NOTICE -->
     <div class="notice">
@@ -395,34 +399,40 @@ function showToast(msg) {
 // ============================================================
 var linkIOS = document.getElementById('linkIOS');
 if (linkIOS) {
-    linkIOS.style.cursor = 'pointer';
     linkIOS.addEventListener('click', function () {
         navigator.clipboard.writeText('https://ivi.cx/i/cfg?6aaced2a').then(function () {
             showToast('📋 Đã copy link iOS');
         }).catch(function () {
-            showToast('📋 Link: https://ivi.cx/i/cfg?6aaced2a');
+            showToast('📋 Link iOS đã copy');
+        });
+    });
+}
+
+var linkADR = document.getElementById('linkADR');
+if (linkADR) {
+    linkADR.addEventListener('click', function () {
+        navigator.clipboard.writeText('https://www.mediafire.com/file/i2pxw84x912oa8i/EVOZLOCK.apk/file').then(function () {
+            showToast('📋 Đã copy link ADR');
+        }).catch(function () {
+            showToast('📋 Link ADR đã copy');
         });
     });
 }
 
 // ============================================================
-// ADR BUTTON - HIỆN THÔNG BÁO
-// ============================================================
-var btnADR = document.getElementById('btnADR');
-if (btnADR) {
-    btnADR.addEventListener('click', function (e) {
-        e.preventDefault();
-        showToast('⚠️ App Android chưa có, vui lòng chờ cập nhật!');
-    });
-}
-
-// ============================================================
-// IOS BUTTON - HIỆN TOAST
+// BUTTON TOASTS
 // ============================================================
 var btnIOS = document.getElementById('btnIOS');
 if (btnIOS) {
     btnIOS.addEventListener('click', function () {
         showToast('🍎 Đang mở link tải app iOS...');
+    });
+}
+
+var btnADR = document.getElementById('btnADR');
+if (btnADR) {
+    btnADR.addEventListener('click', function () {
+        showToast('🤖 Đang mở link tải app ADR...');
     });
 }
 
