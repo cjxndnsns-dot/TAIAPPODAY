@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>EVOZLOCK - Tải App</title>
+    <style>
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#03060c;color:#e8eef5;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+        body{
+            background:
+                radial-gradient(circle at 20% 10%,rgba(56,189,248,.10),transparent 45%),
+                radial-gradient(circle at 80% 90%,rgba(168,85,247,.08),transparent 45%),
+                radial-gradient(circle at 50% -20%,rgba(34,211,238,.12),transparent 50%),
+                linear-gradient(180deg,#03060c 0%,#05080f 50%,#02040a 100%);
+            background-attachment:fixed;
+            min-height:100vh;
+            display:grid;
+            place-items:center;
+            padding:20px;
+        }
+        button,input,select{font-family:inherit;-webkit-appearance:none;appearance:none;outline:none}
+
+        /* ============================================================
+           ANIMATED BACKGROUND
+           ============================================================ */
+        .bg-grid{
+            position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35;
+            background-image:
+                linear-gradient(rgba(56,189,248,.06) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(56,189,248,.06) 1px,transparent 1px);
+            background-size:44px 44px;
+            mask-image:radial-gradient(circle at 50% 30%,black 30%,transparent 75%);
+            -webkit-mask-image:radial-gradient(circle at 50% 30%,black 30%,transparent 75%);
+            animation:gridMove 22s linear infinite;
+        }
+        @keyframes gridMove{
+            0%{background-position:0 0,0 0}
+            100%{background-position:44px 44px,44px 44px}
+        }
+
+        .particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+        .particle{
+            position:absolute;width:2px;height:2px;border-radius:50%;
+            background:#38bdf8;box-shadow:0 0 8px #38bdf8,0 0 16px rgba(56,189,248,.5);
+            animation:floatUp linear infinite;opacity:0;
+        }
+        @keyframes floatUp{
+            0%{transform:translateY(100vh) scale(0);opacity:0}
+            10%{opacity:.9}
+            90%{opacity:.6}
+            100%{transform:translateY(-10vh) scale(1);opacity:0}
+        }
+
+        .orb{
+            position:fixed;border-radius:50%;filter:blur(80px);z-index:0;pointer-events:none;opacity:.4;
+        }
+        .orb.o1{width:340px;height:340px;background:radial-gradient(circle,#38bdf8,transparent 70%);top:-120px;left:-100px;animation:orbFloat 14s ease-in-out infinite}
+        .orb.o2{width:300px;height:300px;background:radial-gradient(circle,#a855f7,transparent 70%);bottom:-100px;right:-100px;animation:orbFloat 18s ease-in-out infinite reverse}
+        .orb.o3{width:240px;height:240px;background:radial-gradient(circle,#22d3ee,transparent 70%);top:40%;left:60%;animation:orbFloat 20s ease-in-out infinite}
+        @keyframes orbFloat{
+            0%,100%{transform:translate(0,0) scale(1)}
+            33%{transform:translate(30px,-30px) scale(1.1)}
+            66%{transform:translate(-20px,20px) scale(.9)}
+        }
+
+        /* ============================================================
+           MAIN CARD
+           ============================================================ */
+        .download-card{
+            position:relative;z-index:1;
+            width:min(460px,94vw);
+            padding:36px 28px 30px;
+            border:1px solid rgba(56,189,248,.25);
+            border-radius:32px;
+            background:linear-gradient(145deg,rgba(10,16,26,.96),rgba(6,10,18,.98));
+            box-shadow:
+                0 26px 70px rgba(0,0,0,.8),
+                inset 0 1px 0 rgba(56,189,248,.15),
+                0 0 60px rgba(56,189,248,.08);
+            text-align:center;
+            overflow:hidden;
+        }
+        .download-card::before{
+            content:"";position:absolute;top:-2px;left:-2px;right:-2px;height:2px;
+            background:linear-gradient(90deg,transparent,#38bdf8,#a855f7,transparent);
+            background-size:200% 100%;
+            animation:borderScan 3s linear infinite;
+        }
+        @keyframes borderScan{
+            0%{background-position:200% 0}
+            100%{background-position:-200% 0}
+        }
+
+        /* ============================================================
+           LOGO VỚI VÒNG QUAY
+           ============================================================ */
+        .brand-logo{
+            position:relative;width:170px;height:170px;margin:0 auto 14px;
+            display:grid;place-items:center;
+        }
+        .brand-logo .ring-outer{
+            position:absolute;inset:0;border-radius:50%;
+            border:2px dashed rgba(56,189,248,.4);
+            animation:ringRotate 12s linear infinite;
+        }
+        .brand-logo .ring-mid{
+            position:absolute;inset:12px;border-radius:50%;
+            border:1px solid rgba(168,85,247,.35);
+            animation:ringRotate 8s linear infinite reverse;
+        }
+        .brand-logo .ring-inner{
+            position:absolute;inset:26px;border-radius:50%;
+            border:1px solid rgba(34,211,238,.3);
+            animation:ringRotate 16s linear infinite;
+        }
+        .brand-logo .ring-glow{
+            position:absolute;inset:-8px;border-radius:50%;
+            background:conic-gradient(from 0deg,transparent,rgba(56,189,248,.5),transparent 40%);
+            animation:ringRotate 4s linear infinite;
+            filter:blur(6px);opacity:.7;
+        }
+        .brand-logo img{
+            position:relative;width:110px;height:110px;object-fit:contain;border-radius:50%;
+            filter:drop-shadow(0 0 24px rgba(56,189,248,.6));
+            z-index:2;
+            border:2px solid rgba(56,189,248,.5);
+            padding:4px;background:rgba(3,6,12,.8);
+        }
+        @keyframes ringRotate{
+            0%{transform:rotate(0deg)}
+            100%{transform:rotate(360deg)}
+        }
+
+        /* ============================================================
+           TITLE
+           ============================================================ */
+        h1{
+            font-size:38px;letter-spacing:1.5px;margin:8px 0 2px;
+            color:#e8eef5;font-weight:950;
+            text-shadow:0 0 20px rgba(56,189,248,.5);
+        }
+        h1 span{
+            color:#38bdf8;
+            text-shadow:0 0 24px rgba(56,189,248,.8),0 0 48px rgba(56,189,248,.4);
+        }
+        .byline{
+            color:#38bdf8;font-weight:900;letter-spacing:3px;margin-bottom:22px;font-size:12px;
+            text-transform:uppercase;opacity:.85;
+        }
+        .platform-badge{
+            background:linear-gradient(135deg,rgba(56,189,248,.15),rgba(168,85,247,.15));
+            color:#38bdf8;border:1px solid rgba(56,189,248,.4);
+            padding:6px 18px;border-radius:999px;font-size:11px;font-weight:900;
+            display:inline-block;margin-bottom:20px;letter-spacing:2px;
+            box-shadow:0 0 20px rgba(56,189,248,.2);
+        }
+
+        /* ============================================================
+           DOWNLOAD INFO BOX
+           ============================================================ */
+        .info-box{
+            border:1px solid rgba(56,189,248,.2);border-radius:20px;
+            padding:20px;margin:14px 0 20px;
+            background:linear-gradient(145deg,rgba(15,22,34,.9),rgba(8,12,20,.95));
+            text-align:left;position:relative;overflow:hidden;
+        }
+        .info-box::after{
+            content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;
+            background:linear-gradient(90deg,transparent,rgba(56,189,248,.06),transparent);
+            animation:shine 4s ease-in-out infinite;
+        }
+        @keyframes shine{
+            0%{left:-100%}
+            50%{left:100%}
+            100%{left:100%}
+        }
+
+        .info-line{
+            display:flex;flex-direction:column;gap:6px;
+            padding:14px 0;position:relative;z-index:1;
+        }
+        .info-line:first-child{padding-top:0}
+        .info-line:last-child{padding-bottom:0;border-bottom:0}
+        .info-line + .info-line{border-top:1px solid rgba(255,255,255,.06)}
+
+        .info-label{
+            display:flex;align-items:center;gap:8px;
+            font-size:13px;font-weight:950;color:#38bdf8;
+            letter-spacing:.5px;
+        }
+        .info-label .icon{
+            width:26px;height:26px;border-radius:8px;
+            display:grid;place-items:center;font-size:14px;
+            background:linear-gradient(145deg,rgba(56,189,248,.15),rgba(168,85,247,.1));
+            border:1px solid rgba(56,189,248,.3);
+        }
+
+        .info-value{
+            font-size:12px;color:#94a3b8;font-family:'SF Mono',monospace;
+            word-break:break-all;padding-left:34px;
+            letter-spacing:.3px;line-height:1.5;
+        }
+        .info-value.ios{color:#38bdf8}
+        .info-value.adr{color:#f59e0b}
+        .info-value.empty{color:#64748b;font-style:italic}
+
+        /* ============================================================
+           DOWNLOAD BUTTONS
+           ============================================================ */
+        .download-btn{
+            width:100%;height:60px;border:0;border-radius:16px;
+            color:#03060c;font-size:16px;font-weight:950;
+            cursor:pointer;letter-spacing:1.5px;position:relative;overflow:hidden;
+            display:flex;align-items:center;justify-content:center;gap:10px;
+            text-decoration:none;
+            transition:.3s;margin-bottom:12px;
+            -webkit-tap-highlight-color:transparent;
+        }
+
+        .download-btn.ios{
+            background:linear-gradient(135deg,#38bdf8,#2563eb,#7c3aed);
+            background-size:200% 100%;
+            box-shadow:0 10px 30px rgba(56,189,248,.35),inset 0 1px 0 rgba(255,255,255,.2);
+            animation:gradientShift 4s linear infinite;
+        }
+        .download-btn.ios:hover{
+            box-shadow:0 14px 40px rgba(56,189,248,.55);
+            transform:translateY(-2px);
+        }
+
+        .download-btn.adr{
+            background:linear-gradient(135deg,#1a2332,#0f1620);
+            color:#64748b;
+            border:1px solid rgba(255,255,255,.08);
+            cursor:not-allowed;
+            box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+        }
+        .download-btn.adr .icon-btn{filter:grayscale(1) opacity(.5)}
+
+        @keyframes gradientShift{
+            0%{background-position:0% 50%}
+            100%{background-position:200% 50%}
+        }
+
+        .icon-btn{font-size:22px;filter:drop-shadow(0 0 6px rgba(0,0,0,.3))}
+
+        /* ============================================================
+           NOTICE
+           ============================================================ */
+        .notice{
+            margin-top:16px;padding:14px 16px;
+            border-radius:14px;
+            background:linear-gradient(145deg,rgba(56,189,248,.06),rgba(168,85,247,.04));
+            border:1px solid rgba(56,189,248,.2);
+            font-size:11px;color:#94a3b8;line-height:1.7;
+            text-align:center;letter-spacing:.3px;
+        }
+        .notice strong{color:#38bdf8;font-weight:900}
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast{
+            position:fixed;left:50%;bottom:40px;z-index:90;
+            transform:translate(-50%,20px);opacity:0;
+            padding:13px 20px;border-radius:999px;
+            background:linear-gradient(145deg,rgba(15,22,34,.98),rgba(8,12,20,.98));
+            color:#e8eef5;border:1px solid rgba(56,189,248,.4);
+            transition:.3s cubic-bezier(.4,0,.2,1);white-space:nowrap;
+            pointer-events:none;font-size:13px;font-weight:800;
+            box-shadow:0 12px 32px rgba(0,0,0,.6),0 0 24px rgba(56,189,248,.2);
+            letter-spacing:.3px;
+        }
+        .toast.active{opacity:1;transform:translate(-50%,0)}
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media(max-width:430px){
+            .download-card{padding:28px 20px 24px}
+            .brand-logo{width:140px;height:140px}
+            .brand-logo img{width:90px;height:90px}
+            h1{font-size:30px}
+            .info-value{font-size:11px;padding-left:34px}
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== BACKGROUND EFFECTS ===== -->
+<div class="bg-grid"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+<div class="particles" id="particles"></div>
+
+<!-- ===== MAIN CARD ===== -->
+<div class="download-card">
+    <div class="brand-logo">
+        <div class="ring-glow"></div>
+        <div class="ring-outer"></div>
+        <div class="ring-mid"></div>
+        <div class="ring-inner"></div>
+        <img src="https://i.postimg.cc/TwpJb6Xc/EA578C1F-9182-4D6F-A03A-2158B3C3CC21.png" alt="EVOZLOCK">
+    </div>
+
+    <h1>EVOZ<span>LOCK</span></h1>
+    <div class="byline">TẢI APP CHÍNH THỨC</div>
+
+    <div class="platform-badge">📱 MOBILE v6.5.0</div>
+
+    <!-- INFO BOX -->
+    <div class="info-box">
+        <div class="info-line">
+            <div class="info-label">
+                <span class="icon">🍎</span>
+                LINK TẢI APP IOS
+            </div>
+            <div class="info-value ios" id="linkIOS">https://ivi.cx/i/cfg?6aaced2a</div>
+        </div>
+        <div class="info-line">
+            <div class="info-label">
+                <span class="icon">🤖</span>
+                LINK TẢI APP ADR
+            </div>
+            <div class="info-value empty" id="linkADR">CHƯA CÓ APP ADR</div>
+        </div>
+    </div>
+
+    <!-- DOWNLOAD BUTTONS -->
+    <a href="https://ivi.cx/i/cfg?6aaced2a" target="_blank" rel="noopener" class="download-btn ios" id="btnIOS">
+        <span class="icon-btn">🍎</span>
+        TẢI APP IOS
+    </a>
+
+    <button class="download-btn adr" id="btnADR" disabled>
+        <span class="icon-btn">🤖</span>
+        CHƯA CÓ APP ADR
+    </button>
+
+    <!-- NOTICE -->
+    <div class="notice">
+        <strong>⚠️ LƯU Ý:</strong> Sau khi tải app, vui lòng cài đặt và mở app để nhập key kích hoạt.
+    </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// PARTICLE BACKGROUND
+// ============================================================
+(function createParticles() {
+    var container = document.getElementById('particles');
+    if (!container) return;
+    var count = 24;
+    for (var i = 0; i < count; i++) {
+        var p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (8 + Math.random() * 12) + 's';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        var size = 1 + Math.random() * 2;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        var colors = ['#38bdf8', '#a855f7', '#22d3ee'];
+        var c = colors[Math.floor(Math.random() * colors.length)];
+        p.style.background = c;
+        p.style.boxShadow = '0 0 8px ' + c + ', 0 0 16px ' + c;
+        container.appendChild(p);
+    }
+})();
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg) {
+    var t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('active');
+    clearTimeout(window.toastTimeout);
+    window.toastTimeout = setTimeout(function () {
+        t.classList.remove('active');
+    }, 2500);
+}
+
+// ============================================================
+// COPY LINK KHI NHẤN VÀO INFO VALUE
+// ============================================================
+var linkIOS = document.getElementById('linkIOS');
+if (linkIOS) {
+    linkIOS.style.cursor = 'pointer';
+    linkIOS.addEventListener('click', function () {
+        navigator.clipboard.writeText('https://ivi.cx/i/cfg?6aaced2a').then(function () {
+            showToast('📋 Đã copy link iOS');
+        }).catch(function () {
+            showToast('📋 Link: https://ivi.cx/i/cfg?6aaced2a');
+        });
+    });
+}
+
+// ============================================================
+// ADR BUTTON - HIỆN THÔNG BÁO
+// ============================================================
+var btnADR = document.getElementById('btnADR');
+if (btnADR) {
+    btnADR.addEventListener('click', function (e) {
+        e.preventDefault();
+        showToast('⚠️ App Android chưa có, vui lòng chờ cập nhật!');
+    });
+}
+
+// ============================================================
+// IOS BUTTON - HIỆN TOAST
+// ============================================================
+var btnIOS = document.getElementById('btnIOS');
+if (btnIOS) {
+    btnIOS.addEventListener('click', function () {
+        showToast('🍎 Đang mở link tải app iOS...');
+    });
+}
+
+// ============================================================
+// LOG
+// ============================================================
+console.log('✅ EVOZLOCK Download Page loaded');
+</script>
+</body>
+</html>
